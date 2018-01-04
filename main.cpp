@@ -1,6 +1,8 @@
 #include <iostream>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <sys/types.h>
+#include <stdio.h>
 
 using namespace std;
 
@@ -20,6 +22,7 @@ int main() {
         }
 
         // Otherwise, parse out input
+
         // Enter into fork
 
         int pid, status; // Process ID and status for potential checks
@@ -34,6 +37,7 @@ int main() {
         if (pid == 0) { // Child process
             try {
                 cout << "we made it inside the child process" << endl;
+                //execvp("ERERER"); // "useful when the number  of  arguments is unknown in advance" (Marshall). We pass file name and arguments
 
             }
             catch (exception e) {
