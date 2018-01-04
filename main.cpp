@@ -44,7 +44,7 @@ int main() {
                 cout << "Sorry, but you have entered invalid input: Please try again" << endl;
             }
 
-            exit(1); // Very important! Exit the child process
+            exit(0); // Very important! Exit the child process
         }
 
         wait(&status);  // Busy wait until the child process terminates (shell completion)
