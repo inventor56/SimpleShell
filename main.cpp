@@ -1,8 +1,8 @@
 #include <iostream>
 #include <unistd.h>
+#include <cstdio>
+#include <cstring>
 #include <sys/wait.h>
-#include <sys/types.h>
-#include <stdio.h>
 
 using namespace std;
 
@@ -22,6 +22,13 @@ int main() {
         }
 
         // Otherwise, parse out input
+        char *filename = const_cast<char *>("/bin/pwd"); // Be sure you can navigate to this directory
+        char *arguments[2];
+        arguments[0] = const_cast<char *>("pwd");
+        arguments[1] = nullptr;
+
+        //const char *test = "pwd";
+        //strcat(filename, "pwd");
 
         // Enter into fork
 
@@ -37,7 +44,7 @@ int main() {
         if (pid == 0) { // Child process
             try {
                 cout << "we made it inside the child process" << endl;
-                //execvp("ERERER"); // "useful when the number  of  arguments is unknown in advance" (Marshall). We pass file name and arguments
+                execvp(filename, arguments); // "useful when the number  of  arguments is unknown in advance" (Marshall). We pass file name and arguments
 
             }
             catch (exception e) {
