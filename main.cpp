@@ -11,26 +11,25 @@ using namespace std;
 int main() {
 
     while(true) {
-        string strFilename = "/bin/"; // Prefix to where the Linux system calls reside
+        string strFilename = "/bin/"; // Prefix to where the Linux commands reside
+        string userInput; // Full initial user input (i.e. cd /Documents/SchoolBudget)
 
-        // Full initial user input (i.e. cd /Documents/SchoolBudget)
-        string userInput;
         // Begin by prompting the user for input
         cout << "Hello! Welcome to the Shell. Please enter in your Linux arguments: " << endl;
         //Store input;
         cin >> userInput; // The entire user input
-        // Terminate the program if exit is the input
-        if (userInput == "exit") {
+
+        if (userInput == "exit") { // Terminate the program if exit is the input
             exit(0); // Exit with EXIT_SUCCESS returned to the host environment
         }
 
-        // Otherwise, parse user input (split into words delimited by whitespace
-
+        // Otherwise, parse user input (split into words delimited by whitespace)
         vector<char *> arguments;
 
         istringstream inputStream(userInput); // Create input stream out of the user input
         vector<string> items{istream_iterator<string>{inputStream}, istream_iterator<string>{}}; // Iterate through input stream and create new String vector with each individual word
 
+        // Set up filename and arguments for passing into the execvp method in the child process
         char * filename = const_cast<char *>((strFilename + items.front()).c_str()); // Concatenate the filename (i.e. "/bin/") with what the user's first input was (i.e. "pwd")
 
         for (auto const& item: items) {
@@ -38,11 +37,7 @@ int main() {
         }
         arguments.push_back(nullptr); // Finally, the last portion of the vector will be a null pointer (a NULL terminator to tell it to end)
 
-        //const char *test = "pwd";
-        //strcat(filename, "pwd");
-
-        // Enter into fork
-
+        // Prepare to fork() off child process
         int pid, status; // Process ID and status for potential checks
 
         pid = fork(); // Fork child process
@@ -54,17 +49,14 @@ int main() {
 
         if (pid == 0) { // Child process
             try {
-                cout << "we made it inside the child process" << endl;
                 execvp(filename, arguments.data()); // We pass file name and arguments (filename will be, for instance, /bin/ls)
 
             }
             catch (exception e) {
                 cout << "Sorry, but you have entered invalid input: Please try again" << endl;
             }
-
             exit(0); // Very important! Exit the child process
         }
-
         wait(&status);  // Busy wait until the child process terminates (shell completion)
     }
 }
