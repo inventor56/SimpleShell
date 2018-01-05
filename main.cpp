@@ -11,6 +11,8 @@ using namespace std;
 int main() {
 
     while(true) {
+        string strFilename = "/bin/"; // Prefix to where the Linux system calls reside
+
         // Full initial user input (i.e. cd /Documents/SchoolBudget)
         string userInput;
         // Begin by prompting the user for input
@@ -23,16 +25,16 @@ int main() {
         }
 
         // Otherwise, parse user input (split into words delimited by whitespace
-        auto * filename = const_cast<char *>("/bin/"); // First element refers to path of executable file
+
         vector<char *> arguments;
 
         istringstream inputStream(userInput); // Create input stream out of the user input
         vector<string> items{istream_iterator<string>{inputStream}, istream_iterator<string>{}}; // Iterate through input stream and create new String vector with each individual word
 
-        strcat(filename, items.front()); // Concatenate the filename (i.e. "/bin/") with what the user's first input was (i.e. "pwd")
+        char * filename = const_cast<char *>((strFilename + items.front()).c_str()); // Concatenate the filename (i.e. "/bin/") with what the user's first input was (i.e. "pwd")
 
         for (auto const& item: items) {
-            arguments.push_back(const_cast<char *&&>(item.c_str())); // Place each argument into your char *arguments vector
+            arguments.push_back(const_cast<char *>(item.c_str())); // Place each argument into your char *arguments vector
         }
         arguments.push_back(nullptr); // Finally, the last portion of the vector will be a null pointer (a NULL terminator to tell it to end)
 
