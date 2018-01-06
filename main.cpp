@@ -15,6 +15,7 @@ int main() {
 
         // Begin by prompting the user for input
         cout << "\nLinux Command Shell: Please enter in your command and arguments (if required): " << endl;
+        // Parse user input
         getline(cin, userInput); // The entire user input (all on one line)
         // If the user enters in "exit", terminate the shell
         if (userInput == "exit") // Terminate the program if exit is the input
@@ -46,10 +47,10 @@ int main() {
         if (pid == 0) {
             execvp(filename, arguments.data()); // We pass file name and arguments (filename will be, for instance, /bin/ls)
             // Below, the perror and exit methods run only if we experience a major error with execvp reading in the filename
-            perror(filename); // This is very important for erroneous input, and a nice trick which avoids necessitating writing try/catch exceptions to handle
+            perror(filename); // Handles erroneous file input easily
             exit(1); // Exit this child process with an unsuccessful exit code
         }
         else // Parent process
-            wait(&status);  // Busy wait until the child process terminates (shell completion)
+           waitpid(pid, &status, 0);  // Busy wait until the child process terminates (shell completion). A wait(&status) would accomplish the same thing
     }
 }
