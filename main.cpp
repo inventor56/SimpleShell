@@ -14,7 +14,7 @@ int main() {
         string userInput; // Full initial user input (i.e. cd /Documents/SchoolBudget)
 
         // Begin by prompting the user for input
-        cout << "Hello! Welcome to the Shell. Please enter in your Linux arguments: " << endl;
+        cout << "\nHello! Welcome to the Shell. Please enter in your Linux arguments: " << endl;
         getline(cin, userInput); // The entire user input (all on one line)
 
         if (userInput == "exit") { // Terminate the program if exit is the input
@@ -45,14 +45,9 @@ int main() {
             exit(1); // exit
         }
 
-        if (pid == 0) { // Child process
-            try {
-                execvp(filename, arguments.data()); // We pass file name and arguments (filename will be, for instance, /bin/ls)
-
-            }
-            catch (exception& e) {
-                cout << "Sorry, but you have entered invalid input: Please try again" << endl;
-            }
+        // Child process
+        if (pid == 0) {
+            execvp(filename, arguments.data()); // We pass file name and arguments (filename will be, for instance, /bin/ls)
             exit(0); // Very important! Exit the child process
         }
         wait(&status);  // Busy wait until the child process terminates (shell completion)
