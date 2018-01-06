@@ -4,7 +4,6 @@
 #include <sys/wait.h>
 #include <sstream>
 #include <iterator>
-#include <cstring>
 
 using namespace std;
 
@@ -17,7 +16,7 @@ int main() {
         // Begin by prompting the user for input
         cout << "Hello! Welcome to the Shell. Please enter in your Linux arguments: " << endl;
         //Store input;
-        cin >> userInput; // The entire user input
+        getline(cin, userInput); // The entire user input (all on one line)
 
         if (userInput == "exit") { // Terminate the program if exit is the input
             exit(0); // Exit with EXIT_SUCCESS returned to the host environment
@@ -34,6 +33,7 @@ int main() {
 
         for (auto const& item: items) {
             arguments.push_back(const_cast<char *>(item.c_str())); // Place each argument into your char *arguments vector
+            cout << item << endl;
         }
         arguments.push_back(nullptr); // Finally, the last portion of the vector will be a null pointer (a NULL terminator to tell it to end)
 
@@ -52,7 +52,7 @@ int main() {
                 execvp(filename, arguments.data()); // We pass file name and arguments (filename will be, for instance, /bin/ls)
 
             }
-            catch (exception e) {
+            catch (exception& e) {
                 cout << "Sorry, but you have entered invalid input: Please try again" << endl;
             }
             exit(0); // Very important! Exit the child process
