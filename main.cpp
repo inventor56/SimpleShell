@@ -45,8 +45,10 @@ int main() {
         // Child process
         if (pid == 0) {
             execvp(filename, arguments.data()); // We pass file name and arguments (filename will be, for instance, /bin/ls)
+            sleep(4);
             exit(0); // Very important! Exit the child process
         }
-        wait(&status);  // Busy wait until the child process terminates (shell completion)
+        else // Parent process
+            wait(&status);  // Busy wait until the child process terminates (shell completion)
     }
 }
