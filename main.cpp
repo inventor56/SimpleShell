@@ -14,7 +14,7 @@ int main() {
         vector<char *> arguments; // Arguments provided by the user, which is parsed from userInput
 
         // Begin by prompting the user for input
-        cout << "\nHello! Welcome to the Shell. Please enter in your Linux arguments: " << endl;
+        cout << "\nLinux Command Shell: Please enter in your command and arguments (if required): " << endl;
         getline(cin, userInput); // The entire user input (all on one line)
         // If the user enters in "exit", terminate the shell
         if (userInput == "exit") // Terminate the program if exit is the input
