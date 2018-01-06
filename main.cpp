@@ -8,10 +8,10 @@
 using namespace std;
 
 int main() {
-
+    const string strFilename = "/bin/"; // Prefix to where the Linux commands reside
     while(true) {
-        string strFilename = "/bin/"; // Prefix to where the Linux commands reside
-        string userInput; // Full initial user input (i.e. cd /Documents/SchoolBudget)
+        string userInput; // Full initial user input (i.e. ls - l)
+        vector<char *> arguments; // Arguments provided by the user, which is parsed from userInput
 
         // Begin by prompting the user for input
         cout << "\nHello! Welcome to the Shell. Please enter in your Linux arguments: " << endl;
@@ -22,8 +22,6 @@ int main() {
         }
 
         // Otherwise, parse user input (split into words delimited by whitespace)
-        vector<char *> arguments;
-
         istringstream inputStream(userInput); // Create input stream out of the user input
         vector<string> items{istream_iterator<string>{inputStream}, istream_iterator<string>{}}; // Iterate through input stream and create new String vector with each individual word
 
