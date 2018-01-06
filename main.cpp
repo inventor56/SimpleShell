@@ -39,7 +39,7 @@ int main() {
 
         if (pid < 0) { // Error during creation
             cout << "Error creating child process" << endl;
-            exit(1); // exit
+            exit(1); // exit (unsuccessful code)
         }
 
         // Child process
