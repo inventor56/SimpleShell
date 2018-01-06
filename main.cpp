@@ -16,10 +16,9 @@ int main() {
         // Begin by prompting the user for input
         cout << "\nHello! Welcome to the Shell. Please enter in your Linux arguments: " << endl;
         getline(cin, userInput); // The entire user input (all on one line)
-
-        if (userInput == "exit") { // Terminate the program if exit is the input
+        // If the user enters in "exit", terminate the shell
+        if (userInput == "exit") // Terminate the program if exit is the input
             exit(0); // Exit with EXIT_SUCCESS returned to the host environment
-        }
 
         // Otherwise, parse user input (split into words delimited by whitespace)
         istringstream inputStream(userInput); // Create input stream out of the user input
