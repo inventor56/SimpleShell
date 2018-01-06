@@ -45,8 +45,9 @@ int main() {
         // Child process
         if (pid == 0) {
             execvp(filename, arguments.data()); // We pass file name and arguments (filename will be, for instance, /bin/ls)
-            sleep(4);
-            exit(0); // Very important! Exit the child process
+            // Below, the perror and exit methods run only if we experience a major error with execvp reading in the filename
+            perror(filename); // This is very important for erroneous input, and a nice trick which avoids necessitating writing try/catch exceptions to handle
+            exit(1); // Exit this child process with an unsuccessful exit code
         }
         else // Parent process
             wait(&status);  // Busy wait until the child process terminates (shell completion)
