@@ -15,7 +15,6 @@ int main() {
 
         // Begin by prompting the user for input
         cout << "Hello! Welcome to the Shell. Please enter in your Linux arguments: " << endl;
-        //Store input;
         getline(cin, userInput); // The entire user input (all on one line)
 
         if (userInput == "exit") { // Terminate the program if exit is the input
@@ -33,7 +32,6 @@ int main() {
 
         for (auto const& item: items) {
             arguments.push_back(const_cast<char *>(item.c_str())); // Place each argument into your char *arguments vector
-            cout << item << endl;
         }
         arguments.push_back(nullptr); // Finally, the last portion of the vector will be a null pointer (a NULL terminator to tell it to end)
 
