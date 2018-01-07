@@ -12,34 +12,28 @@ using namespace std;
 int main() {
     const string strFilename = "/bin/"; // Prefix to where the Linux commands reside
     while(true) {
-        string rawUserInput; // Full initial user input (i.e.   ls - l   ). May have leading or trailing whitespace
+        string userInput; // Full initial user input (i.e. ls -l)
         vector<char *> arguments; // Arguments provided by the user, which will be parsed from userInput
 
         // Begin by prompting the user for input
         cout << "\nLinux Command Shell: Please enter in your command and arguments (if required): " << endl;
         // Get the full user input and store it in a variable
-        getline(cin, rawUserInput); // The entire user input (all on one line)
+        getline(cin, userInput); // The entire user input (all on one line)
 
         // For safety, check to make sure the user didn't just enter in pure whitespace
-        if (std::all_of(rawUserInput.begin(),rawUserInput.end(),[](char wh){ return std::isspace(static_cast<unsigned char>(wh)); }))
+        if (std::all_of(userInput.begin(),userInput.end(),[](char wh){ return std::isspace(static_cast<unsigned char>(wh)); }))
         {
             cout << "You neglected to enter a command, please try again: " << endl; //Inform the user
             continue; // Go to next iteration
         }
 
-        //Trim leading and trailing whitespace (for better program usability)
-        size_t firstIndex = rawUserInput.find_first_not_of(' '); //index of first char after all leading whitespace
-        size_t lastIndex = rawUserInput.find_last_not_of(' '); //index of last char before all trailing whitespace
-        string userInput = rawUserInput.substr(firstIndex, (lastIndex - firstIndex +1)); // return corrected string
-
-
-        // If the user enters in "exit", terminate the shell
-        if (userInput == "exit") // Terminate the program if exit is the input
-            exit(0); // Exit with EXIT_SUCCESS returned to the host environment
-
         // Otherwise, parse user input (split into words delimited by whitespace)
         istringstream inputStream(userInput); // Create input stream out of the user input
         vector<string> items{istream_iterator<string>{inputStream}, istream_iterator<string>{}}; // Iterate through input stream and create new String vector with each individual word
+
+        // If the user enters in "exit", terminate the shell
+        if (items.front() == "exit") // Terminate the program if exit is the input
+            exit(0); // Exit with EXIT_SUCCESS returned to the host environment
 
         // Set up filename and arguments for passing into the execvp method in the child process
         char * filename = const_cast<char *>((strFilename + items.front()).c_str()); // Concatenate the filename (i.e. "/bin/") with what the user's first input was (i.e. "pwd")
