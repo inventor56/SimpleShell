@@ -43,6 +43,15 @@ int main() {
         }
         arguments.push_back(nullptr); // Finally, the last portion of the vector will be a null pointer (a NULL terminator to tell it to end)
 
+        // If the user enters in the cd (change directory) command, handle it separately from the forked Shell process
+        if (items.front() == "cd") {
+            int cdState = chdir(arguments[1]); // Attempt to change the directory to the second element of your arguments (i.e. cd /Documents)
+            if(cdState < 0) // If state is less than zero, the directory change was unsuccessful.
+                cout << "Directory Change Failed!" << endl;
+            else // Else, the directory was changed successfully!
+                cout << "Directory Change Successful!" << endl;
+            continue; // Go to next iteration and take in user input for the Shell (or another cd command)
+        }
         // Prepare to fork() off child process
         int pid, status; // Process ID and status for potential checks
 
